@@ -1,4 +1,4 @@
-# Go Web Service Example
+# Go Web API
 
 ## Introduction
 
@@ -19,8 +19,22 @@ To install and run the web service, follow these steps:
 Once the web service is running, you can access the following endpoints:
 
 - `GET /albums`: Retrieves a list of albums.
+- `GET /albums/{id}`: Retrieves a specific album by its ID.
+- `POST /albums`: Creates a new album.
+- `PUT /albums/{id}`: Updates an existing album by its ID.
+- `DELETE /albums/{id}`: Deletes an album by its ID.
+
 
 To test the service, you can use tools like `curl` or Postman to send requests to `http://localhost:8080/albums`.
+```
+curl -X GET \
+    -H "Content-Type: application/json" \
+    -H "Accept-Language: en-US" \
+    http://localhost:8080/albums
+```
+
+
+
 
 ## Contributing
 
@@ -28,4 +42,4 @@ Contributions are welcome! Please feel free to submit issues or pull requests.
 
 ## License
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+This project is licensed under the MIT License.

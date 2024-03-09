@@ -46,11 +46,45 @@ var albums = []album{
 	{ID: "3", Title: "Sarah Vaughan and Clifford Brown", Artist: "Sarah Vaughan", Price: 39.99},
 }
 
+func deleteAlbumByID(c *gin.Context) {
+	id := c.Param("id")
+
+	for i, a := range albums {
+		if a.ID == id {
+			albums = append(albums[:i], albums[i+1:]...)
+			c.IndentedJSON(http.StatusOK, gin.H{"message": "album deleted"})
+			return
+		}
+	}
+	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "album not found"})
+}
+
+func updateAlbumByID(c *gin.Context) {
+	id := c.Param("id")
+
+	var newAlbum album
+
+	if err := c.BindJSON(&newAlbum); err != nil {
+		return
+	}
+
+	for i, a := range albums {
+		if a.ID == id {
+			albums[i] = newAlbum
+			c.IndentedJSON(http.StatusOK, gin.H{"message": "album updated"})
+			return
+		}
+	}
+	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "album not found"})
+}
+
 func main() {
 	router := gin.Default()
 	router.GET("/albums", getAlbums)
 	router.POST("/albums", postAlbums)
 	router.GET("/albums/:id", getAlbumByID)
+	router.DELETE("/albums/:id", deleteAlbumByID)
+	router.PUT("/albums/:id", updateAlbumByID)
 
 	router.Run("localhost:8080")
 }
